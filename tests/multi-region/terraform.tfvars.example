@@ -1,0 +1,74 @@
+#------------------------------------------------------------------------------
+# Global
+#------------------------------------------------------------------------------
+public_dns_zone_name = "azure.example.com"
+
+#------------------------------------------------------------------------------
+# Primary Region
+#------------------------------------------------------------------------------
+friendly_name_prefix_primary = "tfeprimary"
+primary_location            = "East US"
+resource_group_name_primary = "tfe-primary-prereqs-rg"
+common_tags_primary = {
+  "App"          = "TFE"
+  "Owner"        = "YourName"
+  "Terraform"    = "cli"
+  "Environment"  = "test"
+  "Is_Secondary" = false
+  "Module"       = "terraform-aws-tfe-prereqs"
+  "Scenario"     = "multi-region"
+}
+
+vnet_name_primary           = "tfe-vnet-primary"
+vnet_cidr_primary           = ["10.0.0.0/16"]
+bastion_subnet_cidr_primary = "10.0.0.0/24"
+lb_subnet_cidr_primary      = "10.0.1.0/24"
+vm_subnet_cidr_primary      = "10.0.2.0/24"
+db_subnet_cidr_primary      = "10.0.3.0/24"
+
+#------------------------------------------------------------------------------
+# Secondary Region
+#------------------------------------------------------------------------------
+friendly_name_prefix_secondary = "tfesecondary"
+secondary_location            = "West US 2"
+resource_group_name_secondary = "tfe-secondary-prereqs-rg"
+common_tags_secondary = {
+  "App"          = "TFE"
+  "Owner"        = "YourName"
+  "Terraform"    = "cli"
+  "Environment"  = "test"
+  "Is_Secondary" = true
+  "Module"       = "terraform-aws-tfe-prereqs"
+  "Scenario"     = "multi-region"
+}
+
+vnet_name_secondary           = "tfe-vnet-secondary"
+vnet_cidr_secondary           = ["10.1.0.0/16"]
+bastion_subnet_cidr_secondary = "10.1.0.0/24"
+lb_subnet_cidr_secondary      = "10.1.1.0/24"
+vm_subnet_cidr_secondary      = "10.1.2.0/24"
+db_subnet_cidr_secondary      = "10.1.3.0/24"
+
+#------------------------------------------------------------------------------
+# Common to Both Regions
+#------------------------------------------------------------------------------
+create_nat_gateway          = true
+
+bastion_ingress_cidr_allow     = ["1.1.1.1/32"]
+tfe_lb_ingress_cidr_allow_443  = ["1.2.3.4/32", "192.30.252.0/22", "185.199.108.0/22", "140.82.112.0/20", "143.55.64.0/20"]
+tfe_lb_ingress_cidr_allow_8800 = ["1.2.3.4/32"]
+tfe_vm_ingress_cidr_allow_443  = ["10.0.1.0/24"]
+tfe_vm_ingress_cidr_allow_8800 = ["10.0.1.0/24"]
+
+bastion_ssh_public_key = "ssh-rsa AAAMyPublicKey== yourname@yourname-computername"
+
+kv_ingress_cidr_allow = ["1.2.3.4/32"]
+kv_console_password   = "Cons0l3Passw0rd!"
+kv_enc_password       = "Encrypti0nPassw0rd@"
+kv_tfe_cert_b64       = "thisismybase64encodedtfeservercertificatestring0123456789"
+kv_tfe_privkey_b64    = "thisismybase64encodedtfeservercertificateprivatekeystring"
+kv_ca_bundle          = "-----BEGIN CERTIFICATE-----\nMIIEZTCCA02gAwIBAgIQQAF1BIMUpMghjISpDBbN3zANBgkqhkiG9w0BAQsFADA/\nMSQwIgYDVQQKExtEaWdpdGFsIFNpZ25hdHVyZSBUcnVzdCBDby4xFzAVBgNVBAMT\nDkRTVCBSb290IENBIFgzMB4XDTIwMTAwNzE5MjE0MFoXDTIxMDkyOTE5MjE0MFow\nMjELMAkGA1UEBhMCVVMxFjAUBgNVBAoTDUxldCdzIEVuY3J5cHQxCzAJBgNVBAMT\nAlIzMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuwIVKMz2oJTTDxLs\njVWSw/iC8ZmmekKIp10mqrUrucVMsa+Oa/l1yKPXD0eUFFU1V4yeqKI5GfWCPEKp\nTm71O8Mu243AsFzzWTjn7c9p8FoLG77AlCQlh/o3cbMT5xys4Zvv2+Q7RVJFlqnB\nU840yFLuta7tj95gcOKlVKu2bQ6XpUA0ayvTvGbrZjR8+muLj1cpmfgwF126cm/7\ngcWt0oZYPRfH5wm78Sv3htzB2nFd1EbjzK0lwYi8YGd1ZrPxGPeiXOZT/zqItkel\n/xMY6pgJdz+dU/nPAeX1pnAXFK9jpP+Zs5Od3FOnBv5IhR2haa4ldbsTzFID9e1R\noYvbFQIDAQABo4IBaDCCAWQwEgYDVR0TAQH/BAgwBgEB/wIBADAOBgNVHQ8BAf8E\nBAMCAYYwSwYIKwYBBQUHAQEEPzA9MDsGCCsGAQUFBzAChi9odHRwOi8vYXBwcy5p\nZGVudHJ1c3QuY29tL3Jvb3RzL2RzdHJvb3RjYXgzLnA3YzAfBgNVHSMEGDAWgBTE\np7Gkeyxx+tvhS5B1/8QVYIWJEDBUBgNVHSAETTBLMAgGBmeBDAECATA/BgsrBgEE\nAYLfEwEBATAwMC4GCCsGAQUFBwIBFiJodHRwOi8vY3BzLnJvb3QteDEubGV0c2Vu\nY3J5cHQub3JnMDwGA1UdHwQ1MDMwMaAvoC2GK2h0dHA6Ly9jcmwuaWRlbnRydXN0\nLmNvbS9EU1RST09UQ0FYM0NSTC5jcmwwHQYDVR0OBBYEFBQusxe3WFbLrlAJQOYf\nr52LFMLGMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjANBgkqhkiG9w0B\nAQsFAAOCAQEA2UzgyfWEiDcx27sT4rP8i2tiEmxYt0l+PAK3qB8oYevO4C5z70kH\nejWEHx2taPDY/laBL21/WKZuNTYQHHPD5b1tXgHXbnL7KqC401dk5VvCadTQsvd8\nS8MXjohyc9z9/G2948kLjmE6Flh9dDYrVYA9x2O+hEPGOaEOa1eePynBgPayvUfL\nqjBstzLhWVQLGAkXXmNs+5ZnPBxzDJOLxhF2JIbeQAcH5H0tZrUlo5ZYyOqA7s9p\nO5b85o3AM/OJ+CktFBQtfvBhcJVd9wvlwPsk+uyOy2HI7mNxKKgsBTt375teA2Tw\nUdHkhVNcsAKX1H7GNNLOEADksd86wuoXvg==\n-----END CERTIFICATE-----"
+
+sa_ingress_cidr_allow = ["1.2.3.4"]
+
+deploy_log_analytics_workspace = true
